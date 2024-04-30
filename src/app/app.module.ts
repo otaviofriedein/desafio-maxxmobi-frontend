@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table'
 import { CustomInterceptor } from './service/http-custom.interceptor';
 
 @NgModule({
@@ -23,14 +24,16 @@ import { CustomInterceptor } from './service/http-custom.interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    // Angular Material Modules
+    MatTableModule,
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule
   ],
   providers: [
     {

@@ -1,1 +1,53 @@
-<p>home works!</p>
+
+
+<table mat-table [dataSource]="data" class="mat-elevation-z8 demo-table">
+
+    <ng-container matColumnDef="demo-id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="demo-nome">
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="demo-nascimento">
+      <th mat-header-cell *matHeaderCellDef> Nascimento </th>
+      <td mat-cell *matCellDef="let element"> {{element.nascimento}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="demo-sexo">
+      <th mat-header-cell *matHeaderCellDef> Sexo </th>
+      <td mat-cell *matCellDef="let element"> {{element.sexo}} </td>
+    </ng-container>
+
+     <ng-container matColumnDef="demo-nota">
+        <th mat-header-cell *matHeaderCellDef> Nota </th>
+        <td mat-cell *matCellDef="let element"> {{element.nota}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="demo-logradouro">
+        <th mat-header-cell *matHeaderCellDef> logradouro </th>
+        <td mat-cell *matCellDef="let element"> {{element.logradouro}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="demo-bairro">
+        <th mat-header-cell *matHeaderCellDef> bairro </th>
+        <td mat-cell *matCellDef="let element"> {{element.bairro}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="demo-cidade">
+        <th mat-header-cell *matHeaderCellDef> cidade </th>
+        <td mat-cell *matCellDef="let element"> {{element.cidade}} </td>
+      </ng-container>
+
+       <!-- Symbol Column -->
+    <ng-container matColumnDef="demo-uf">
+        <th mat-header-cell *matHeaderCellDef> uf </th>
+        <td mat-cell *matCellDef="let element"> {{element.uf}} </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
