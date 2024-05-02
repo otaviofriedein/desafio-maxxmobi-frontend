@@ -1,0 +1,8 @@
+mat-form-field {
+  width: 95%;
+}
+
+.mat-mdc-button-base{
+  min-width: 130px !important;
+  min-height: 40px !important;
+}

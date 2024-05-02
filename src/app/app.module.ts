@@ -14,12 +14,21 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table'
 import { CustomInterceptor } from './service/http-custom.interceptor';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { LayoutComponent } from './pages/layout/layout.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +43,13 @@ import { CustomInterceptor } from './service/http-custom.interceptor';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [
     {
@@ -41,7 +57,9 @@ import { CustomInterceptor } from './service/http-custom.interceptor';
       useClass: CustomInterceptor,
       multi: true
   },
-    provideAnimationsAsync()
+  MatDatepickerModule,
+  {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

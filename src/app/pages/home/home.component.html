@@ -1,53 +1,105 @@
+<app-layout></app-layout>
+<div class="container">
 
+  <h1>Home</h1>
 
-<table mat-table [dataSource]="data" class="mat-elevation-z8 demo-table">
+  <h2>Candidatos</h2>
+    <mat-grid-list cols="5" rowHeight="5:1">
 
-    <ng-container matColumnDef="demo-id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="demo-nome">
-      <th mat-header-cell *matHeaderCellDef> Nome </th>
-      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
-    </ng-container>
+      <mat-grid-tile>
+        <mat-form-field >
+          <mat-label>Nome</mat-label>
+          <input [(ngModel)]="filterCandidatoParams.nome" matInput  placeholder="Nome" #inputNome/>
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <ng-container matColumnDef="demo-nascimento">
-      <th mat-header-cell *matHeaderCellDef> Nascimento </th>
-      <td mat-cell *matCellDef="let element"> {{element.nascimento}} </td>
-    </ng-container>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Nascimento</mat-label>
+          <input [(ngModel)]="filterCandidatoParams.nascimento" matInput [matDatepicker]="picker">
+          <mat-hint>dd/mm/aaaa</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <ng-container matColumnDef="demo-sexo">
-      <th mat-header-cell *matHeaderCellDef> Sexo </th>
-      <td mat-cell *matCellDef="let element"> {{element.sexo}} </td>
-    </ng-container>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Sexo</mat-label>
+          <mat-select [(ngModel)]="filterCandidatoParams.sexo">
+            <mat-option value="">Selecione</mat-option>
+            <mat-option value="M">Masculino</mat-option>
+            <mat-option value="F">Feminino</mat-option>
+          </mat-select>      
+        </mat-form-field>
+      
+      </mat-grid-tile>
+        
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Nota</mat-label>
+          <input [(ngModel)]="filterCandidatoParams.nota" matInput type="number" placeholder="Nota" #inputNota/>
+        </mat-form-field>
+      </mat-grid-tile>
 
-     <ng-container matColumnDef="demo-nota">
-        <th mat-header-cell *matHeaderCellDef> Nota </th>
-        <td mat-cell *matCellDef="let element"> {{element.nota}} </td>
-      </ng-container>
+      <mat-grid-tile>     
+            <button type="submit" mat-raised-button color="primary" (click)="loadCandidatos()">Filtrar</button>
+        
+            <button type="button" mat-raised-button color="default" (click)="clearFilterCandidato()">Limpar</button>  
+      </mat-grid-tile>
+    </mat-grid-list>
 
-    <ng-container matColumnDef="demo-logradouro">
-        <th mat-header-cell *matHeaderCellDef> logradouro </th>
-        <td mat-cell *matCellDef="let element"> {{element.logradouro}} </td>
-      </ng-container>
+    <br><br>
 
-    <ng-container matColumnDef="demo-bairro">
-        <th mat-header-cell *matHeaderCellDef> bairro </th>
-        <td mat-cell *matCellDef="let element"> {{element.bairro}} </td>
-      </ng-container>
+    <table mat-table [dataSource]="candidatoResponse" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="demo-cidade">
-        <th mat-header-cell *matHeaderCellDef> cidade </th>
-        <td mat-cell *matCellDef="let element"> {{element.cidade}} </td>
-      </ng-container>
+        <ng-container matColumnDef="colunm-id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="colunm-nome">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+        </ng-container>
 
-       <!-- Symbol Column -->
-    <ng-container matColumnDef="demo-uf">
-        <th mat-header-cell *matHeaderCellDef> uf </th>
-        <td mat-cell *matCellDef="let element"> {{element.uf}} </td>
-      </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+        <ng-container matColumnDef="colunm-nascimento">
+          <th mat-header-cell *matHeaderCellDef> Nascimento </th>
+          <td mat-cell *matCellDef="let element"> {{element.nascimento}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="colunm-sexo">
+          <th mat-header-cell *matHeaderCellDef> Sexo </th>
+          <td mat-cell *matCellDef="let element"> {{element.sexo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="colunm-nota">
+            <th mat-header-cell *matHeaderCellDef> Nota </th>
+            <td mat-cell *matCellDef="let element"> {{element.nota}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="colunm-logradouro">
+            <th mat-header-cell *matHeaderCellDef> logradouro </th>
+            <td mat-cell *matCellDef="let element"> {{element.logradouro}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="colunm-bairro">
+            <th mat-header-cell *matHeaderCellDef> bairro </th>
+            <td mat-cell *matCellDef="let element"> {{element.bairro}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="colunm-cidade">
+            <th mat-header-cell *matHeaderCellDef> cidade </th>
+            <td mat-cell *matCellDef="let element"> {{element.cidade}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+        <ng-container matColumnDef="colunm-uf">
+            <th mat-header-cell *matHeaderCellDef> uf </th>
+            <td mat-cell *matCellDef="let element"> {{element.uf}} </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+      </table>
+</div>  
