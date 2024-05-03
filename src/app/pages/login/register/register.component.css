@@ -1,0 +1,16 @@
+.error {
+    padding: 16px;
+    color: white;
+    background-color: red;
+  }
+  
+  mat-card-title,
+  mat-card-content {
+    display: flex;
+    justify-content: center;
+  }
+  
+  mat-form-field{
+    width: 450px;
+  }
+  
