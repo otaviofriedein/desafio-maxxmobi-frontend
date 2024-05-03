@@ -13,7 +13,7 @@ export class HomeComponent {
 
   candidatoResponse: CandidatoResponse[] = []
   filterCandidatoParams: FilterCandidatoParams = new FilterCandidatoParams();
-  tableColumns: string[] = ['colunm-id', 'colunm-nome', 'colunm-nascimento', 'colunm-sexo', 'colunm-nota', 'colunm-logradouro', 'colunm-bairro', 'colunm-cidade', 'colunm-uf'];
+  tableColumns: string[] = ['colunm-id', 'colunm-nome', 'colunm-nascimento', 'colunm-sexo', 'colunm-nota', 'colunm-logradouro', 'colunm-bairro', 'colunm-cidade', 'colunm-uf', 'colunm-options'];
   
   constructor(private http: HttpClient) {
     this.loadCandidatos();
@@ -42,18 +42,14 @@ export class HomeComponent {
   getValuesFromFilterCandidato(){
     let params = '';
 
-    if (this.filterCandidatoParams.nome != '')   params += `nome=${this.filterCandidatoParams.nome}&`;
+    if (this.filterCandidatoParams.nome != '')   params += `nome=${encodeURIComponent(this.filterCandidatoParams.nome)}&`;
     if (this.filterCandidatoParams.sexo != '')   params += `sexo=${this.filterCandidatoParams.sexo}&`;
     if (this.filterCandidatoParams.nota != null) params += `nota=${this.filterCandidatoParams.nota}&`;
     if (this.filterCandidatoParams.nascimento != null) {
       params += `nascimento=${this.getDateFormatted(this.filterCandidatoParams.nascimento)}`;
     }
 
-    if (params.length > 0){
-      params =  '?' + params;
-    }
-
-    return params;
+    return (params.length > 0) ? '?' + params : params;
   }
 
   getDateFormatted(date: Date): string {

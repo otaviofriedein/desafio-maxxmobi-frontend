@@ -2,7 +2,17 @@ mat-form-field {
   width: 95%;
 }
 
-.mat-mdc-button-base{
+.button-filter{
   min-width: 130px !important;
   min-height: 40px !important;
+}
+
+.icons-row{
+  text-align: end;
+}
+
+.mat-column-colunm-options {
+  width: 15%;
+  text-align: center;
+  font-weight: bold;
 }
