@@ -25,7 +25,7 @@ import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, Mat
 import { RegisterComponent } from './pages/login/register/register.component';
 import { CandidatoComponent } from './components/candidato/candidato.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatToolbarModule,
     MatIconModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   providers: [
     {

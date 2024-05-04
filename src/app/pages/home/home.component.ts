@@ -107,6 +107,6 @@ export class HomeComponent {
   }
 
   clearFilterCandidato = () => {
-    this.candidatoFilters = {} as CandidatoFilters;
+    location.reload();
   }  
 }
