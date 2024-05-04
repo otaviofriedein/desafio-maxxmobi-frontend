@@ -3,27 +3,27 @@
 
   <h2>Candidatos</h2>
 
-  <h2>   
-      <button mat-raised-button color="primary" aria-label="Example icon button with a bookmark icon">
-        Adicionar
-        <mat-icon>add_circle</mat-icon>
-      </button>
+  <h2>
+    <button mat-raised-button color="primary" aria-label="Example icon button with a bookmark icon">
+      Adicionar
+      <mat-icon>add_circle</mat-icon>
+    </button>
   </h2>
- <br>
+  <br>
 
   <mat-grid-list cols="5" rowHeight="5:1">
 
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Nome</mat-label>
-        <input [(ngModel)]="filterCandidatoParams.nome" matInput placeholder="Nome" #inputNome />
+        <input [(ngModel)]="candidatoFilters.nome" matInput placeholder="Nome" #inputNome />
       </mat-form-field>
     </mat-grid-tile>
 
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Nascimento</mat-label>
-        <input [(ngModel)]="filterCandidatoParams.nascimento" matInput [matDatepicker]="picker">
+        <input [(ngModel)]="candidatoFilters.nascimento" matInput [matDatepicker]="picker">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -32,7 +32,7 @@
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Sexo</mat-label>
-        <mat-select [(ngModel)]="filterCandidatoParams.sexo">
+        <mat-select [(ngModel)]="candidatoFilters.sexo">
           <mat-option value="">Selecione</mat-option>
           <mat-option value="M">Masculino</mat-option>
           <mat-option value="F">Feminino</mat-option>
@@ -43,20 +43,22 @@
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Nota</mat-label>
-        <input [(ngModel)]="filterCandidatoParams.nota" matInput type="number" placeholder="Nota" #inputNota />
+        <input [(ngModel)]="candidatoFilters.nota" matInput type="number" placeholder="Nota" #inputNota />
       </mat-form-field>
     </mat-grid-tile>
 
     <mat-grid-tile>
-      <button class="button-filter" type="button" mat-raised-button color="primary" (click)="loadCandidatos()">Filtrar</button>
+      <button class="button-filter" type="button" mat-raised-button color="primary"
+        (click)="getAllCandidatos()">Filtrar</button>
 
-      <button class="button-filter" type="button" mat-raised-button color="default" (click)="clearFilterCandidato()">Limpar</button>
+      <button class="button-filter" type="button" mat-raised-button color="default"
+        (click)="clearFilterCandidato()">Limpar</button>
     </mat-grid-tile>
   </mat-grid-list>
 
   <br>
 
-  <table mat-table [dataSource]="candidatoResponse" class="mat-elevation-z8">
+  <table mat-table [dataSource]="candidatos" class="mat-elevation-z8">
 
     <ng-container matColumnDef="colunm-id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -107,17 +109,17 @@
       <th mat-header-cell *matHeaderCellDef>
         Ações
       </th>
-      <td mat-cell *matCellDef="let element"> 
+      <td mat-cell *matCellDef="let element">
         <div class="icons-row">
-          <button mat-icon-button aria-label="Visualizar">
+          <button aria-label="Visualizar" type="button" mat-icon-button (click)="getCandidato(element.id, false)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button aria-label="Editar">
+          <button aria-label="Editar" type="button" mat-icon-button (click)="getCandidato(element.id, true)">
             <mat-icon>edit_note</mat-icon>
           </button>
-          <button mat-icon-button aria-label="Excluir">
+          <!-- <button mat-icon-button aria-label="Excluir">
             <mat-icon>delete</mat-icon>
-          </button>
+          </button> -->
         </div>
       </td>
     </ng-container>

@@ -12,9 +12,10 @@ import { RegisterComponent } from './register/register.component';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private http: HttpClient, private router: Router,public dialog: MatDialog){}
+  
+  constructor(private http: HttpClient, private router: Router, public dialog: MatDialog){}
 
-  @Input() error!: string | null;
+  error!: string | null;
 
   form: FormGroup = new FormGroup({
     email: new FormControl(''),
@@ -48,7 +49,5 @@ export class LoginComponent {
       enterAnimationDuration,
       exitAnimationDuration,
     });
-  }
-
- 
+  } 
 }

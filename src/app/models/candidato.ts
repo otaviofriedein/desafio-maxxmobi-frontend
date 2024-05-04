@@ -1,4 +1,4 @@
-export interface CandidatoResponse {
+export interface Candidato {
     id: number;
     nome: string;
     nascimento: string;
@@ -8,4 +8,5 @@ export interface CandidatoResponse {
     bairro: string;
     cidade: string;
     uf: string;
-  }
+    data_criacao: string;
+}

@@ -14,7 +14,7 @@ import { catchError, tap } from 'rxjs';
 
 export class RegisterComponent {
 
-  constructor(private http: HttpClient, private router: Router){}
+  constructor(private http: HttpClient){}
 
   @Input() errorRegister!: string | null;
 

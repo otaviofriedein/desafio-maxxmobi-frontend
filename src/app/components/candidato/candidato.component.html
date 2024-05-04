@@ -1,0 +1,81 @@
+<mat-card>
+    <br>
+
+    <mat-card-title>
+        Cadidato
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <div *ngIf="candidato">
+
+            <p>
+                <mat-form-field>
+                    <mat-label>Nome</mat-label>
+                    <input [(ngModel)]="candidato.nome" [disabled]="!editable" type="text" matInput placeholder="Nome" >
+                </mat-form-field>
+            
+                <mat-form-field>
+                    <mat-label>Nascimento</mat-label>
+                    <input [(ngModel)]="candidato.nascimento" [disabled]="!editable" matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>Sexo</mat-label>
+                    <mat-select [(ngModel)]="candidato.sexo" [disabled]="!editable">
+                        <mat-option value="">Selecione</mat-option>
+                        <mat-option value="M">Masculino</mat-option>
+                        <mat-option value="F">Feminino</mat-option>
+                    </mat-select>
+                </mat-form-field>
+           
+                <mat-form-field>
+                    <mat-label>Nota</mat-label>
+                    <input [(ngModel)]="candidato.nota" [disabled]="!editable" matInput type="number" placeholder="Nota" #inputNota />
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>Logradouro</mat-label>
+                    <input [(ngModel)]="candidato.logradouro" [disabled]="!editable" matInput type="text" placeholder="Logradouro"
+                        #inputLogradouro />
+                </mat-form-field>
+          
+                <mat-form-field>
+                    <mat-label>Bairro</mat-label>
+                    <input [(ngModel)]="candidato.bairro" [disabled]="!editable" matInput type="text" placeholder="Bairro" #inputBairro />
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>Cidade</mat-label>
+                    <input [(ngModel)]="candidato.cidade" [disabled]="!editable" matInput type="text" placeholder="Cidade" #inputCidade />
+                </mat-form-field>
+           
+                <mat-form-field>
+                    <mat-label>UF</mat-label>
+                    <input [(ngModel)]="candidato.uf" [disabled]="!editable" matInput type="text" placeholder="UF" maxlength="22" #inputUf />
+                </mat-form-field>
+            </p>
+            <p>
+                Criado em: {{ candidato.data_criacao }}
+            </p>
+
+            <p *ngIf="error" class="error">
+                {{ error }}
+            </p>
+
+            <div *ngIf="editable" >
+                <button (click)="onEdit()" type="button" mat-raised-button color="primary">Editar</button>
+            </div>         
+         
+        </div>
+        <p *ngIf="error" class="error">
+            {{ error }}
+        </p>
+
+    </mat-card-content>
+</mat-card>
