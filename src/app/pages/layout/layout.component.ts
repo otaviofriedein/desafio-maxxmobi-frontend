@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { AutenticacaoService } from '../../service/autenticacao/autenticacao.service';
 
 @Component({
   selector: 'app-layout',
@@ -7,7 +8,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class LayoutComponent {
   
+  constructor(private autenticacaoService: AutenticacaoService){};
+
   onLogout(){
-    
+    this.autenticacaoService.logout();
   }
 }
