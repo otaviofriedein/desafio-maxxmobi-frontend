@@ -14,13 +14,29 @@ export class CandidatoComponent {
   constructor(){}
 
   @Input() candidato!: Candidato;
-  @Input() editable!: boolean;
+  @Input() readonly: boolean = false;
   
   @Output() update = new EventEmitter<void>();
+  @Output() create = new EventEmitter<Candidato>();
 
-  error!: string;
+  ngOnInit(): void {
+    if (this.candidato == null) this.candidato = {} as Candidato;
+  }
+
+  enableCreate(){
+    return !this.candidato.id;
+  }
+
+  enableUpdate(){
+    return this.candidato.id && !this.readonly;
+  }
+
+  onCreate(){
+    this.create.emit(this.candidato);
+  }
 
   onEdit(){
     this.update.emit();
   }
+
 }

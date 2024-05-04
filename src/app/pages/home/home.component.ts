@@ -32,25 +32,49 @@ export class HomeComponent {
     this.candidatoService.getCandidatos(params).subscribe((candidatos: Candidato[]) => {
       this.candidatos = candidatos;
     });
-  }
-
-  getCandidato(id:number, editable: boolean) {
-    this.candidatoService.getCandidatoById(id).subscribe((candidato: Candidato) => {
-      let candidatoComponent = this.dialog.open(CandidatoComponent);
-      this.candidato = candidato;
-      
-      candidatoComponent.componentInstance.candidato = this.candidato;
-      candidatoComponent.componentInstance.editable = editable;    
-      candidatoComponent.componentInstance.update.subscribe(() => {
-        this.updateCandidato();
-      });  
-    })        
   } 
 
   updateCandidato() {  
     this.candidatoService.updateCandidato(this.candidato).subscribe(() => {
       this._snackBar.open('SUCESSO', '', { duration: 1500 });
       setTimeout(() => { location.reload(); }, 1500);      
+    });
+  }
+
+  openDialogToCreateCandidato() {  
+    let candidatoComponent = this.dialog.open(CandidatoComponent);
+      
+      candidatoComponent.componentInstance.create.subscribe((newCandidato) => {
+        this.createCandidato(newCandidato);
+      });  
+  }
+
+  openDialogToViewCandidato(id:number) {  
+    this.candidatoService.getCandidatoById(id).subscribe((candidato: Candidato) => {
+      let candidatoComponent = this.dialog.open(CandidatoComponent);
+      this.candidato = candidato;
+      
+      candidatoComponent.componentInstance.candidato = this.candidato;
+      candidatoComponent.componentInstance.readonly = true;       
+    })   
+  }
+
+  openDialogToUpdateCandidato(id:number) {
+    this.candidatoService.getCandidatoById(id).subscribe((candidato: Candidato) => {
+      let candidatoComponent = this.dialog.open(CandidatoComponent);
+      this.candidato = candidato;
+      
+      candidatoComponent.componentInstance.candidato = this.candidato;
+      candidatoComponent.componentInstance.update.subscribe(() => {
+        this.updateCandidato();
+      });  
+    })        
+  }
+
+  createCandidato(candidato: Candidato) {  
+    this.candidatoService.saveCandidato(candidato).subscribe(() => {
+      this._snackBar.open('SUCESSO', '', { duration: 1500 });
+      setTimeout(() => { location.reload(); }, 1500);
     });
   }
 
@@ -84,6 +108,5 @@ export class HomeComponent {
 
   clearFilterCandidato = () => {
     this.candidatoFilters = {} as CandidatoFilters;
-  }
-  
+  }  
 }

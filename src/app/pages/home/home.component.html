@@ -4,7 +4,7 @@
   <h2>Candidatos</h2>
 
   <h2>
-    <button mat-raised-button color="primary" aria-label="Example icon button with a bookmark icon">
+    <button mat-raised-button color="primary" (click)="openDialogToCreateCandidato()">
       Adicionar
       <mat-icon>add_circle</mat-icon>
     </button>
@@ -111,10 +111,10 @@
       </th>
       <td mat-cell *matCellDef="let element">
         <div class="icons-row">
-          <button aria-label="Visualizar" type="button" mat-icon-button (click)="getCandidato(element.id, false)">
+          <button aria-label="Visualizar" type="button" mat-icon-button (click)="openDialogToViewCandidato(element.id)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button aria-label="Editar" type="button" mat-icon-button (click)="getCandidato(element.id, true)">
+          <button aria-label="Editar" type="button" mat-icon-button (click)="openDialogToUpdateCandidato(element.id)">
             <mat-icon>edit_note</mat-icon>
           </button>
           <button aria-label="Excluir" type="button" mat-icon-button (click)="deleteCandidato(element.id)">

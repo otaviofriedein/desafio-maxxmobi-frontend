@@ -12,12 +12,12 @@
             <p>
                 <mat-form-field>
                     <mat-label>Nome</mat-label>
-                    <input [(ngModel)]="candidato.nome" [disabled]="!editable" type="text" matInput placeholder="Nome" >
+                    <input [(ngModel)]="candidato.nome" [disabled]="readonly" type="text" matInput placeholder="Nome" >
                 </mat-form-field>
             
                 <mat-form-field>
                     <mat-label>Nascimento</mat-label>
-                    <input [(ngModel)]="candidato.nascimento" [disabled]="!editable" matInput [matDatepicker]="picker">
+                    <input [(ngModel)]="candidato.nascimento" [disabled]="readonly" matInput [matDatepicker]="picker">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -25,7 +25,7 @@
             <p>
                 <mat-form-field>
                     <mat-label>Sexo</mat-label>
-                    <mat-select [(ngModel)]="candidato.sexo" [disabled]="!editable">
+                    <mat-select [(ngModel)]="candidato.sexo" [disabled]="readonly">
                         <mat-option value="">Selecione</mat-option>
                         <mat-option value="M">Masculino</mat-option>
                         <mat-option value="F">Feminino</mat-option>
@@ -34,48 +34,44 @@
            
                 <mat-form-field>
                     <mat-label>Nota</mat-label>
-                    <input [(ngModel)]="candidato.nota" [disabled]="!editable" matInput type="number" placeholder="Nota" #inputNota />
+                    <input [(ngModel)]="candidato.nota" [disabled]="readonly" matInput type="number" placeholder="Nota" #inputNota />
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field>
                     <mat-label>Logradouro</mat-label>
-                    <input [(ngModel)]="candidato.logradouro" [disabled]="!editable" matInput type="text" placeholder="Logradouro"
+                    <input [(ngModel)]="candidato.logradouro" [disabled]="readonly" matInput type="text" placeholder="Logradouro"
                         #inputLogradouro />
                 </mat-form-field>
           
                 <mat-form-field>
                     <mat-label>Bairro</mat-label>
-                    <input [(ngModel)]="candidato.bairro" [disabled]="!editable" matInput type="text" placeholder="Bairro" #inputBairro />
+                    <input [(ngModel)]="candidato.bairro" [disabled]="readonly" matInput type="text" placeholder="Bairro" #inputBairro />
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field>
                     <mat-label>Cidade</mat-label>
-                    <input [(ngModel)]="candidato.cidade" [disabled]="!editable" matInput type="text" placeholder="Cidade" #inputCidade />
+                    <input [(ngModel)]="candidato.cidade" [disabled]="readonly" matInput type="text" placeholder="Cidade" #inputCidade />
                 </mat-form-field>
            
                 <mat-form-field>
                     <mat-label>UF</mat-label>
-                    <input [(ngModel)]="candidato.uf" [disabled]="!editable" matInput type="text" placeholder="UF" maxlength="2" #inputUf />
+                    <input [(ngModel)]="candidato.uf" [disabled]="readonly" matInput type="text" placeholder="UF" maxlength="2" #inputUf />
                 </mat-form-field>
             </p>
-            <p>
+            <p *ngIf="candidato.data_criacao">
                 Criado em: {{ candidato.data_criacao }}
             </p>
 
-            <p *ngIf="error" class="error">
-                {{ error }}
-            </p>
-
-            <div *ngIf="editable" >
+            <div *ngIf="enableCreate()" >
+                <button (click)="onCreate()" type="button" mat-raised-button color="primary">Criar</button>
+            </div>
+            <div *ngIf="enableUpdate()">
                 <button (click)="onEdit()" type="button" mat-raised-button color="primary">Editar</button>
-            </div>         
+            </div>
          
-        </div>
-        <p *ngIf="error" class="error">
-            {{ error }}
-        </p>
+        </div>      
 
     </mat-card-content>
 </mat-card>
