@@ -34,8 +34,8 @@ export class CandidatoService {
       .pipe(catchError(this.handleError))
   }
 
-  deleteCandidato(candidato: Candidato) {
-    return this.httpClient.delete<Candidato>(this.url + '/' + candidato.id, this.httpOptions)
+  deleteCandidato(id: number) {
+    return this.httpClient.delete<Candidato>(this.url + '/' + id, this.httpOptions)
       .pipe(catchError(this.handleError))
   }
 

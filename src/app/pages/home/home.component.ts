@@ -45,7 +45,7 @@ export class HomeComponent {
         this.updateCandidato();
       });  
     })        
-  }  
+  } 
 
   updateCandidato() {  
     this.candidatoService.updateCandidato(this.candidato).subscribe(() => {
@@ -54,6 +54,12 @@ export class HomeComponent {
     });
   }
 
+  deleteCandidato(id:number) {  
+    this.candidatoService.deleteCandidato(id).subscribe(() => {
+      this._snackBar.open('SUCESSO', '', { duration: 1500 });
+      setTimeout(() => { location.reload(); }, 1500);      
+    });
+  }
 
   getFilterCandidato(){
     let params = '';
