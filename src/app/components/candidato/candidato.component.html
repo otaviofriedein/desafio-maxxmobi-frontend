@@ -7,17 +7,17 @@
     <mat-card-content>
         <h2>Candidato</h2>
 
-        <div *ngIf="candidato">
-
+        <form [formGroup]="formCandidato" (ngSubmit)="onSave()">
+       
             <p>
                 <mat-form-field>
                     <mat-label>Nome</mat-label>
-                    <input [(ngModel)]="candidato.nome" [disabled]="readonly" type="text" matInput placeholder="Nome" >
+                    <input formControlName="nome" required type="text" matInput placeholder="Nome" >
                 </mat-form-field>
             
                 <mat-form-field>
                     <mat-label>Nascimento</mat-label>
-                    <input [(ngModel)]="candidato.nascimento" [disabled]="readonly" matInput [matDatepicker]="picker">
+                    <input formControlName="nascimento" required matInput [matDatepicker]="picker">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -25,7 +25,7 @@
             <p>
                 <mat-form-field>
                     <mat-label>Sexo</mat-label>
-                    <mat-select [(ngModel)]="candidato.sexo" [disabled]="readonly">
+                    <mat-select formControlName="sexo" required [disabled]="readonly">
                         <mat-option value="">Selecione</mat-option>
                         <mat-option value="M">Masculino</mat-option>
                         <mat-option value="F">Feminino</mat-option>
@@ -34,44 +34,40 @@
            
                 <mat-form-field>
                     <mat-label>Nota</mat-label>
-                    <input [(ngModel)]="candidato.nota" [disabled]="readonly" matInput type="number" placeholder="Nota" #inputNota />
+                    <input formControlName="nota" required matInput type="number" placeholder="Nota" #inputNota />
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field>
                     <mat-label>Logradouro</mat-label>
-                    <input [(ngModel)]="candidato.logradouro" [disabled]="readonly" matInput type="text" placeholder="Logradouro"
+                    <input formControlName="logradouro" matInput type="text" placeholder="Logradouro"
                         #inputLogradouro />
                 </mat-form-field>
           
                 <mat-form-field>
                     <mat-label>Bairro</mat-label>
-                    <input [(ngModel)]="candidato.bairro" [disabled]="readonly" matInput type="text" placeholder="Bairro" #inputBairro />
+                    <input formControlName="bairro" matInput type="text" placeholder="Bairro" #inputBairro />
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field>
                     <mat-label>Cidade</mat-label>
-                    <input [(ngModel)]="candidato.cidade" [disabled]="readonly" matInput type="text" placeholder="Cidade" #inputCidade />
+                    <input formControlName="cidade" matInput type="text" placeholder="Cidade" #inputCidade />
                 </mat-form-field>
            
                 <mat-form-field>
                     <mat-label>UF</mat-label>
-                    <input [(ngModel)]="candidato.uf" [disabled]="readonly" matInput type="text" placeholder="UF" maxlength="2" #inputUf />
+                    <input formControlName="uf" matInput type="text" placeholder="UF" maxlength="2" #inputUf />
                 </mat-form-field>
             </p>
-            <p *ngIf="candidato.data_criacao">
+            <p *ngIf="candidato">
                 Criado em: {{ candidato.data_criacao }}
             </p>
 
-            <div *ngIf="enableCreate()" >
-                <button (click)="onCreate()" type="button" mat-raised-button color="primary">Criar</button>
+            <div *ngIf="!this.readonly" >
+                <button type="submit" mat-raised-button color="primary">Salvar</button>
             </div>
-            <div *ngIf="enableUpdate()">
-                <button (click)="onEdit()" type="button" mat-raised-button color="primary">Editar</button>
-            </div>
-         
-        </div>      
+        </form>      
 
     </mat-card-content>
 </mat-card>

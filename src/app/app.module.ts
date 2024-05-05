@@ -22,7 +22,7 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle} from '@angular/material/dialog';
-import { RegisterComponent } from './pages/login/register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 import { CandidatoComponent } from './components/candidato/candidato.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';

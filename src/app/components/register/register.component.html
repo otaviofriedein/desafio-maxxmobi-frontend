@@ -1,38 +1,29 @@
 <mat-card>
     <br>
-
     <mat-card-title>
         Register
     </mat-card-title>
 
     <mat-card-content>
-
         <form [formGroup]="formRegister" (ngSubmit)="onRegister()">
             <p>
                 <mat-form-field>
-                    <input type="text" matInput placeholder="Nome Completo" formControlName="fullName">
+                    <input type="text" required matInput placeholder="Nome Completo" formControlName="fullName">
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field>
-                    <input type="email" matInput placeholder="Email" formControlName="email">
+                    <input type="email" required matInput placeholder="Email" formControlName="email">
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field>
-                    <input type="password" matInput placeholder="Password" formControlName="password">
+                    <input type="password" required matInput placeholder="Password" formControlName="password">
                 </mat-form-field>
             </p>
-
-
-            <p *ngIf="errorRegister" class="error">
-                {{ errorRegister }}
-            </p>
-
             <div>
                 <button class="button" type="submit" mat-raised-button color="primary">Register</button>
             </div>
         </form>
-
     </mat-card-content>
 </mat-card>

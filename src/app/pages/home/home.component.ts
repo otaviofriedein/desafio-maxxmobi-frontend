@@ -36,15 +36,15 @@ export class HomeComponent {
 
   updateCandidato() {  
     this.candidatoService.updateCandidato(this.candidato).subscribe(() => {
-      this._snackBar.open('SUCESSO', '', { duration: 1500 });
-      setTimeout(() => { location.reload(); }, 1500);      
+      this._snackBar.open('Candidato atualizado com sucesso!', '', { duration: 3000 });
+      setTimeout(() => { location.reload(); }, 3000);      
     });
   }
 
   openDialogToCreateCandidato() {  
     let candidatoComponent = this.dialog.open(CandidatoComponent);
       
-      candidatoComponent.componentInstance.create.subscribe((newCandidato) => {
+      candidatoComponent.componentInstance.save.subscribe((newCandidato) => {
         this.createCandidato(newCandidato);
       });  
   }
@@ -65,7 +65,7 @@ export class HomeComponent {
       this.candidato = candidato;
       
       candidatoComponent.componentInstance.candidato = this.candidato;
-      candidatoComponent.componentInstance.update.subscribe(() => {
+      candidatoComponent.componentInstance.save.subscribe(() => {
         this.updateCandidato();
       });  
     })        
@@ -73,19 +73,23 @@ export class HomeComponent {
 
   createCandidato(candidato: Candidato) {  
     this.candidatoService.saveCandidato(candidato).subscribe(() => {
-      this._snackBar.open('SUCESSO', '', { duration: 1500 });
-      setTimeout(() => { location.reload(); }, 1500);
+      this._snackBar.open('Candidato criado com sucesso', '', { duration: 3000 });
+      setTimeout(() => { location.reload(); }, 3000);
     });
   }
 
   deleteCandidato(id:number) {  
     this.candidatoService.deleteCandidato(id).subscribe(() => {
-      this._snackBar.open('SUCESSO', '', { duration: 1500 });
-      setTimeout(() => { location.reload(); }, 1500);      
+      this._snackBar.open('Candidato excluído com sucesso', '', { duration: 3000 });
+      setTimeout(() => { location.reload(); }, 3000);      
     });
   }
 
-  getFilterCandidato(){
+  clearFilterCandidato = () => {
+    location.reload();
+  }  
+
+  private getFilterCandidato(){
     let params = '';
 
     if (this.candidatoFilters.nome != undefined) params += `nome=${this.candidatoFilters.nome}&`;
@@ -98,15 +102,11 @@ export class HomeComponent {
     return (params.length > 0) ? '?' + params : params;
   }
 
-  getDateFormatted(date: Date): string {
+  private getDateFormatted(date: Date): string {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
   
     return `${year}-${month}-${day}`;
   }
-
-  clearFilterCandidato = () => {
-    location.reload();
-  }  
 }

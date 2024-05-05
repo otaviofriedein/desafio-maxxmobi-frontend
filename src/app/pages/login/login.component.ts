@@ -1,53 +1,59 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { RegisterComponent } from '../../components/register/register.component';
+import { AutenticacaoService } from '../../service/autenticacao/autenticacao.service';
+import { TokenJWT } from '../../models/tokenJwt';
 import { Router } from '@angular/router';
-import { tap, catchError } from 'rxjs';
-import { RegisterComponent } from './register/register.component';
+import { FormControl, FormGroup } from '@angular/forms';
+import { User } from '../../models/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
-  
-  constructor(private http: HttpClient, private router: Router, public dialog: MatDialog){}
 
-  error!: string | null;
+export class LoginComponent {  
+  constructor(
+    public dialog: MatDialog,
+    private autenticacaoService: AutenticacaoService, 
+    private router: Router, 
+    private _snackBar: MatSnackBar){}
 
-  form: FormGroup = new FormGroup({
+  user= {} as User;
+
+  formLogin: FormGroup = new FormGroup({
     email: new FormControl(''),
-    password: new FormControl(''),
+    password: new FormControl('')
   });
 
   onLogin() {
-    this.http.post('http://localhost:8081/auth/login', this.form.value, { observe: 'response' })
-      .pipe(
-        tap((response: HttpResponse<any>) => {
-          if (response.ok) {
-            localStorage.setItem('token', response.body.token);
-            this.router.navigateByUrl('/home');
-          } else {
-            setTimeout(() => { this.error = null; }, 3000);
-            this.error = "Não foi possível realizar o login!";
-          }
-        }),
-        catchError((error) => {
-          setTimeout(() => { this.error = null; }, 3000);
-
-          return this.error = error.error.description;  
-        })
-      )
-      .subscribe();
+    if (this.formLogin.valid){
+      this.user = this.formLogin.value as User;
+      this.autenticacaoService.login(this.user).subscribe((response: TokenJWT) => {
+        localStorage.setItem('token', response.token);
+        this.router.navigateByUrl('/home');
+      });
+    }
+    else
+    {
+      this._snackBar.open('Login inválido!', 'Fechar', { duration: 3000 });      
+    }   
   }
 
-  openRegister(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(RegisterComponent, {
-      minWidth: '500px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
+  openDialogToRegisterUser() {
+    let userComponent = this.dialog.open(RegisterComponent);
+
+    userComponent.componentInstance.register.subscribe((newUser) => {
+      this.onRegister(newUser);
+    });  
   } 
+
+  onRegister(user: User) {      
+    this.autenticacaoService.signUp(user).subscribe(() => {
+      this._snackBar.open('Usuário criado!', 'Fechar', { duration: 3000 });
+      setTimeout(() => { location.reload(); }, 3000);
+    });      
+  }
 }
