@@ -4,7 +4,7 @@ import { CandidatoService } from '../../service/candidato/candidato.service';
 import { CandidatoFilters } from '../../models/candidatoFilters';
 import { MatDialog } from '@angular/material/dialog';
 import { CandidatoComponent } from '../../components/candidato/candidato.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilService } from '../../service/utils/util.service';
 
 @Component({
   selector: 'app-home',
@@ -14,32 +14,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class HomeComponent {
 
-  tableColumns: string[] = ['colunm-id', 'colunm-nome', 'colunm-nascimento', 'colunm-sexo', 'colunm-nota', 'colunm-logradouro', 'colunm-bairro', 'colunm-cidade', 'colunm-uf', 'colunm-options'];
+  tableColumns: string[] = ['id', 'nome', 'nascimento', 'sexo', 'nota', 'logradouro', 'bairro', 'cidade', 'uf', 'options'];
   
   candidato = {} as Candidato;
   candidatoFilters = {} as CandidatoFilters;
   candidatos: Candidato[] = [];
 
-  constructor(private candidatoService: CandidatoService, public dialog: MatDialog, private _snackBar: MatSnackBar) {} 
+  constructor(
+    private candidatoService: CandidatoService, 
+    private util: UtilService,
+    public dialog: MatDialog
+  ) {} 
 
-  ngOnInit() {
-    this.getAllCandidatos();
-  }
-
+  ngOnInit = () => this.getAllCandidatos();
+  
   getAllCandidatos() {
     let params = this.getFilterCandidato();
 
     this.candidatoService.getCandidatos(params).subscribe((candidatos: Candidato[]) => {
       this.candidatos = candidatos;
     });
-  } 
-
-  updateCandidato() {  
-    this.candidatoService.updateCandidato(this.candidato).subscribe(() => {
-      this._snackBar.open('Candidato atualizado com sucesso!', '', { duration: 3000 });
-      setTimeout(() => { location.reload(); }, 3000);      
-    });
-  }
+  }  
 
   openDialogToCreateCandidato() {  
     let candidatoComponent = this.dialog.open(CandidatoComponent);
@@ -65,29 +60,22 @@ export class HomeComponent {
       this.candidato = candidato;
       
       candidatoComponent.componentInstance.candidato = this.candidato;
-      candidatoComponent.componentInstance.save.subscribe(() => {
-        this.updateCandidato();
+      candidatoComponent.componentInstance.save.subscribe((editedCandidato) => {
+        this.updateCandidato(editedCandidato);
       });  
     })        
-  }
-
-  createCandidato(candidato: Candidato) {  
-    this.candidatoService.saveCandidato(candidato).subscribe(() => {
-      this._snackBar.open('Candidato criado com sucesso', '', { duration: 3000 });
-      setTimeout(() => { location.reload(); }, 3000);
-    });
-  }
-
-  deleteCandidato(id:number) {  
-    this.candidatoService.deleteCandidato(id).subscribe(() => {
-      this._snackBar.open('Candidato excluído com sucesso', '', { duration: 3000 });
-      setTimeout(() => { location.reload(); }, 3000);      
-    });
-  }
-
-  clearFilterCandidato = () => {
-    location.reload();
   }  
+
+  clearFilterCandidato = () => location.reload();
+
+  createCandidato = (candidato: Candidato) => 
+    this.candidatoService.createCandidato(candidato);
+  
+  updateCandidato = (candidato: Candidato) => 
+    this.candidatoService.updateCandidato(candidato);
+  
+  deleteCandidato = (id:number) => 
+    this.candidatoService.deleteCandidato(id);  
 
   private getFilterCandidato(){
     let params = '';
@@ -96,17 +84,10 @@ export class HomeComponent {
     if (this.candidatoFilters.sexo != undefined) params += `sexo=${this.candidatoFilters.sexo}&`;
     if (this.candidatoFilters.nota != undefined) params += `nota=${this.candidatoFilters.nota}&`;
     if (this.candidatoFilters.nascimento != undefined) {
-      params += `nascimento=${this.getDateFormatted(this.candidatoFilters.nascimento)}`;
+      params += `nascimento=${this.util.convertToServerDateFormat(this.candidatoFilters.nascimento)}`;
     }
 
     return (params.length > 0) ? '?' + params : params;
   }
-
-  private getDateFormatted(date: Date): string {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
   
-    return `${year}-${month}-${day}`;
-  }
 }

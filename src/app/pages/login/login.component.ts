@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../../components/register/register.component';
 import { AutenticacaoService } from '../../service/autenticacao/autenticacao.service';
-import { TokenJWT } from '../../models/tokenJwt';
-import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { User } from '../../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +16,6 @@ export class LoginComponent {
   constructor(
     public dialog: MatDialog,
     private autenticacaoService: AutenticacaoService, 
-    private router: Router, 
     private _snackBar: MatSnackBar){}
 
   user= {} as User;
