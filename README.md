@@ -4,15 +4,20 @@ Aplicação para realização de CRUD de Candidatos, utilizando o framework [Ang
 
 ## Iniciar App
 
-Antes da inicialização, você precisará instalar o Node e o NPM via terminal:
+ Antes da inicialização, você precisará instalar o Node e o NPM via terminal:
 
-- [Como instalar Node e NPM.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+-  [Como instalar Node e NPM.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute:
+
+- npm install -g @angular/cli
+
+O comando acima irá instalar o Angular CLI globalmente ([Consulte a documentação](https://angular.io/guide/setup-local#install-the-angular-cli)).
 
 - npm install
 
 O comando acima irá instalar todas as dependências do projeto.
+
 Após a conclusão, execute:
 
 - ng serve 
