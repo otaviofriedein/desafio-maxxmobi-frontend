@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { catchError, tap } from 'rxjs';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Candidato } from '../../models/candidato';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -12,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CandidatoComponent {
 
-  constructor(private _snackBar: MatSnackBar){}
+  constructor(public snackBar: MatSnackBar){}
 
   @Input() candidato!: Candidato;
   @Input() readonly: boolean = false;
@@ -29,20 +28,19 @@ export class CandidatoComponent {
     bairro: new FormControl({value:'', disabled: this.readonly}),
     cidade: new FormControl({value:'', disabled: this.readonly}),
     uf: new FormControl({value:'', disabled: this.readonly}),    
-  });;
+  });
 
-  ngOnInit(): void {
-
+  ngOnInit() {
     if (this.candidato != null) this.formCandidato.patchValue(this.candidato);
   }
 
   onSave(){
-    if (this.formCandidato.valid){
+    if (this.formCandidato.valid) {
       this.candidato = this.formCandidato.value as Candidato;
       this.save.emit(this.candidato);
     }
     else{
-      this._snackBar.open('Formulário inválido!', 'Fechar', { duration: 3000 });   
+      this.snackBar.open('Formulário inválido!', 'Fechar', { duration: 3000 });   
     }    
   }   
 }

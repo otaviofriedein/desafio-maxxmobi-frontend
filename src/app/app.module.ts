@@ -65,9 +65,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
       provide: HTTP_INTERCEPTORS,
       useClass: CustomInterceptor,
       multi: true
-  },
+   },
   MatDatepickerModule,
-  {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+  {
+    provide: MAT_DATE_LOCALE, useValue: 'pt-BR'
+  },
     provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
