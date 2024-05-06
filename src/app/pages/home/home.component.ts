@@ -84,8 +84,9 @@ export class HomeComponent {
     if (this.candidatoFilters.sexo != undefined) params += `sexo=${this.candidatoFilters.sexo}&`;
     if (this.candidatoFilters.nota != undefined) params += `nota=${this.candidatoFilters.nota}&`;
     if (this.candidatoFilters.nascimento != undefined) {
-      params += `nascimento=${this.util.convertToServerDateFormat(this.candidatoFilters.nascimento)}`;
+      params += `nascimento=${this.util.convertToServerDateFormat(this.candidatoFilters.nascimento)}&`;
     }
+    if (this.candidatoFilters.sortBy != undefined) params += `sortBy=${this.candidatoFilters.sortBy.value}&order=${this.candidatoFilters.sortBy.direction}`;
 
     return (params.length > 0) ? '?' + params : params;
   }
