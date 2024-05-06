@@ -1,5 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { User } from '../../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class RegisterComponent {
 
-  constructor(private _snackBar: MatSnackBar){}
+  constructor(public snackBar: MatSnackBar){}
 
   user= {} as User;
   @Output() register = new EventEmitter<User>();
@@ -29,7 +28,7 @@ export class RegisterComponent {
         this.register.emit(this.user);
     }
     else{
-      this._snackBar.open('Formulário inválido', 'Fechar', { duration: 3000 });
+      this.snackBar.open('Formulário inválido', 'Fechar', { duration: 3000 });
     }           
   }
 }
