@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { TokenJWT } from '../../models/tokenJwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,6 +18,7 @@ export class AutenticacaoService {
     private router: Router, 
     private _snackBar: MatSnackBar) { }
 
+  private tokenKey = 'token';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
@@ -32,17 +33,30 @@ export class AutenticacaoService {
   }
 
   login(login: User): Observable<TokenJWT> {
-    return this.httpClient.post<TokenJWT>(this.url + '/login', JSON.stringify(login), this.httpOptions).pipe(
-      catchError(error => {
-        this.showErrorSnackBar('Falha ao autenticar. Verifique suas credenciais.');
-        return throwError(() => error);
-      })
+    return this.httpClient.post<TokenJWT>(this.url + '/login', JSON.stringify(login), this.httpOptions)
+      .pipe(
+        tap((response) => {
+          localStorage.setItem(this.tokenKey, response.token);
+          this.router.navigateByUrl('/home');
+        }),   
+        catchError(error => {
+          this.showErrorSnackBar('Falha ao autenticar. Verifique suas credenciais.');
+          return throwError(() => error);
+        })
     );
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem(this.tokenKey);
     this.router.navigateByUrl(this.url + '/login');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 
   private showErrorSnackBar(mensagem: string) {

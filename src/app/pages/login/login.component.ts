@@ -31,10 +31,7 @@ export class LoginComponent {
   onLogin() {
     if (this.formLogin.valid){
       this.user = this.formLogin.value as User;
-      this.autenticacaoService.login(this.user).subscribe((response: TokenJWT) => {
-        localStorage.setItem('token', response.token);
-        this.router.navigateByUrl('/home');
-      });
+      this.autenticacaoService.login(this.user);
     }
     else
     {
