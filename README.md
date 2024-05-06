@@ -1,19 +1,24 @@
-# FrontendCrud
+# CRUD Candidatos App
 
-[Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+Aplicação para realização de CRUD de Candidatos, utilizando o framework [Angular](https://angular.io).
 
+## Iniciar App
 
-## Get Start
+Antes da inicialização, você precisará instalar o Node e o NPM via terminal:
 
-Install:
- 
-- Node
-- npm
+- [Como instalar Node e NPM.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-## Development server
+No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute:
 
-Run `npm install`
+- npm install
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
+O comando acima irá instalar todas as dependências do projeto.
+Após a conclusão, execute:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- ng serve 
+
+## Testes Unitários
+
+No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute:
+
+- ng test
