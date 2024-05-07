@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(
     public dialog: MatDialog,
     private autenticacaoService: AutenticacaoService, 
-    private _snackBar: MatSnackBar){}
+    private snackBar: MatSnackBar){}
 
   user= {} as User;
 
@@ -28,26 +28,19 @@ export class LoginComponent {
   onLogin() {
     if (this.formLogin.valid){
       this.user = this.formLogin.value as User;
-      this.autenticacaoService.login(this.user);
+      this.autenticacaoService.login(this.user)
     }
     else
     {
-      this._snackBar.open('Login inválido!', 'Fechar', { duration: 3000 });      
+      this.snackBar.open('Login inválido!', 'Fechar', { duration: 3000 });      
     }   
   }
 
   openDialogToRegisterUser() {
-    let userComponent = this.dialog.open(RegisterComponent);
+    let registerComponent = this.dialog.open(RegisterComponent);
 
-    userComponent.componentInstance.register.subscribe((newUser) => {
-      this.onRegister(newUser);
+    registerComponent.componentInstance.register.subscribe((newUser) => {
+      this.autenticacaoService.signUp(newUser);
     });  
-  } 
-
-  onRegister(user: User) {      
-    this.autenticacaoService.signUp(user).subscribe(() => {
-      this._snackBar.open('Usuário criado!', 'Fechar', { duration: 3000 });
-      setTimeout(() => { location.reload(); }, 3000);
-    });      
-  }
+  }   
 }
