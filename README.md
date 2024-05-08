@@ -1,29 +1,51 @@
 # CRUD Candidatos App
 
-Aplicação para realização de CRUD de Candidatos, utilizando o framework [Angular](https://angular.io).
+Esta é uma aplicação para realização de CRUD de Candidatos, desenvolvida utilizando o framework [Angular](https://angular.io).
 
-## Iniciar App
+## Iniciando a Aplicação
 
- Antes da inicialização, você precisará instalar o Node e o NPM via terminal:
+Antes de iniciar a aplicação, você precisará instalar o Node.js e o NPM (Node Package Manager) em seu sistema. Você pode encontrar instruções detalhadas sobre como fazer isso [aqui](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
--  [Como instalar Node e NPM.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+Após instalar o Node.js e o NPM, siga os passos abaixo:
 
-No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute:
+1. No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute o seguinte comando para instalar o Angular CLI globalmente:
 
-- npm install -g @angular/cli
+    ```bash
+    npm install -g @angular/cli
+    ```
 
-O comando acima irá instalar o Angular CLI globalmente ([Consulte a documentação](https://angular.io/guide/setup-local#install-the-angular-cli)).
+    Este comando instalará a interface de linha de comando do Angular globalmente em seu sistema. Para mais detalhes, consulte a [documentação oficial](https://angular.io/guide/setup-local#install-the-angular-cli).
 
-- npm install
+2. Em seguida, execute o seguinte comando para instalar todas as dependências do projeto:
 
-O comando acima irá instalar todas as dependências do projeto.
+    ```bash
+    npm install
+    ```
 
-Após a conclusão, execute:
+    Isso garantirá que todas as dependências necessárias para o projeto sejam instaladas.
 
-- ng serve 
+3. Após a conclusão da instalação das dependências, inicie a aplicação executando o comando:
+
+    ```bash
+    ng serve
+    ```
+
+    Isso iniciará o servidor de desenvolvimento do Angular. Você poderá acessar a aplicação em seu navegador através do seguinte link: [http://localhost:4200](http://localhost:4200).
 
 ## Testes Unitários
 
-No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute:
+Para executar os testes unitários da aplicação, siga estas instruções:
 
-- ng test
+1. No seu terminal, dentro do diretório da aplicação (desafio-maxxmobi-frontend), execute o seguinte comando:
+
+    ```bash
+    ng test
+    ```
+
+    Este comando iniciará a execução dos testes unitários para o projeto.
+
+## Informações Adicionais
+
+- Para autenticação, utilize o link: [http://localhost:8080/auth](http://localhost:8080/auth).
+- A aplicação estará disponível na porta 4200 por padrão. Certifique-se de que esta porta esteja disponível e não esteja sendo utilizada por outros serviços em seu sistema.
+
