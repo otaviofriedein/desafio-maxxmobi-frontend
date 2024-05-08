@@ -25,6 +25,10 @@ export class AutenticacaoService {
 
   signUp(user: User) {
     return this.httpClient.post<User>(this.url + '/signup', JSON.stringify(user), this.httpOptions).pipe(
+      tap(() => {
+        this._snackBar.open('Usuário criado!', 'Fechar', { duration: 3000 });
+        setTimeout(() => { location.reload(); }, 3000);
+      }),  
       catchError(error => {
         this.showErrorSnackBar('Não foi possível criar o seu usuário.');
         return throwError(() => error);
