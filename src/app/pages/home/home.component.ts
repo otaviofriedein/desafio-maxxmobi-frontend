@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
   openDialogToViewCandidato(id: number) {
     this.candidatoService.getCandidatoById(id).subscribe((candidato: Candidato) => {
       let candidatoComponent = this.dialog.open(CandidatoComponent);
+      candidato.nascimento = this.util.convertToClientDateFormat(candidato.nascimento);
       this.candidato = candidato;
 
       candidatoComponent.componentInstance.candidato = this.candidato;
@@ -61,6 +62,7 @@ export class HomeComponent implements OnInit {
   openDialogToUpdateCandidato(id: number) {
     this.candidatoService.getCandidatoById(id).subscribe((candidato: Candidato) => {
       let candidatoComponent = this.dialog.open(CandidatoComponent);
+      candidato.nascimento = this.util.convertToClientDateFormat(candidato.nascimento);
       this.candidato = candidato;
 
       candidatoComponent.componentInstance.candidato = this.candidato;
@@ -107,5 +109,9 @@ export class HomeComponent implements OnInit {
   showSuccessSnackBarAndReload(mensagem: string) {
     this.snackBar.open(mensagem, '', { duration: 3000 });
     setTimeout(() => { location.reload(); }, 3000);
+  }
+
+  formatToLocalDate(data: string){
+    return this.util.formatToLocalDate(data);
   }
 }

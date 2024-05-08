@@ -60,7 +60,7 @@
                     <input formControlName="uf" matInput type="text" placeholder="UF" maxlength="2" #inputUf />
                 </mat-form-field>
             </p>
-            <p *ngIf="candidato">
+            <p *ngIf="candidato && candidato.data_criacao">
                 Criado em: {{ candidato.data_criacao }}
             </p>
 

@@ -16,9 +16,15 @@ export class UtilService {
   }
 
   convertToClientDateFormat(dateString: string) {
-    const [year, month, day] = dateString.split('-').map(Number);    
-    const date = new Date(year, month - 1, day);
+    let [year, month, day] = dateString.split('-').map(Number);
+    day = day + 1;
 
-    return date;
+    return `${year}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`;
+  }
+
+  formatToLocalDate(dateString: string) {
+    let dateFormatted = this.convertToClientDateFormat(dateString);
+   
+    return new Date(dateFormatted).toLocaleDateString();
   }
 }
