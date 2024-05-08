@@ -3,8 +3,8 @@ import { Candidato,  } from '../../models/candidato';
 import { CandidatoService } from '../../service/candidato/candidato.service';
 import { CandidatoFilters } from '../../models/candidatoFilters';
 import { MatDialog } from '@angular/material/dialog';
-import { CandidatoComponent } from '../../components/candidato/candidato.component';
 import { UtilService } from '../../service/utils/util.service';
+import { CandidatoComponent } from './candidato/candidato.component';
 
 @Component({
   selector: 'app-home',

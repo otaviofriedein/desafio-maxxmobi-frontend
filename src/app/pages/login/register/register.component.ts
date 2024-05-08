@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { User } from '../../models/user';
+import { User } from '../../../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

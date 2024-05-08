@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Candidato } from '../../models/candidato';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { API_URL } from '../../api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CandidatoService {
 
-  url = 'http://localhost:8081/candidato';
+  resource = '/candidato';
 
   constructor(
     private httpClient: HttpClient,
@@ -22,7 +23,7 @@ export class CandidatoService {
   }
 
   getCandidatos(params: string): Observable<Candidato[]> {
-    return this.httpClient.get<Candidato[]>(this.url + params).pipe(
+    return this.httpClient.get<Candidato[]>(`${API_URL}${this.resource}${params}`).pipe(
       catchError(error => {
         this.showErrorSnackBar('Não foi possível carregar os candidatos');
         return throwError(() => error);
@@ -30,7 +31,7 @@ export class CandidatoService {
   }
 
   getCandidatoById(id: number): Observable<Candidato> {
-    return this.httpClient.get<Candidato>(this.url + '/' + id).pipe(
+    return this.httpClient.get<Candidato>(`${API_URL}${this.resource}/${id}`).pipe(
       catchError(error => {
         this.showErrorSnackBar('Não foi possível carregar o candidato de ID: ' + id);
         return throwError(() => error);
@@ -38,7 +39,7 @@ export class CandidatoService {
   }
 
   createCandidato(candidato: Candidato): Observable<Candidato> {
-    return this.httpClient.post<Candidato>(this.url, JSON.stringify(candidato), this.httpOptions).pipe(
+    return this.httpClient.post<Candidato>(`${API_URL}${this.resource}`, JSON.stringify(candidato), this.httpOptions).pipe(
       tap((response) => {
         this.showSuccessSnackBarAndReload('Candidato criado com sucesso');
         return response;
@@ -50,7 +51,7 @@ export class CandidatoService {
   }
 
   updateCandidato(candidato: Candidato): Observable<Candidato> {
-    return this.httpClient.put<Candidato>(this.url + '/' + candidato.id, JSON.stringify(candidato), this.httpOptions).pipe(
+    return this.httpClient.put<Candidato>(`${API_URL}${this.resource}/${candidato.id}`, JSON.stringify(candidato), this.httpOptions).pipe(
       tap((response) => {
         this.showSuccessSnackBarAndReload('Candidato atualizado com sucesso');
         return response;
@@ -63,7 +64,7 @@ export class CandidatoService {
   }
 
   deleteCandidato(id: number) {
-    return this.httpClient.delete(this.url + '/' + id, this.httpOptions).pipe(
+    return this.httpClient.delete(`${API_URL}${this.resource}/${id}`, this.httpOptions).pipe(
       tap((response) => {
         this.showSuccessSnackBarAndReload('Candidato excluído com sucesso');    
         return response;

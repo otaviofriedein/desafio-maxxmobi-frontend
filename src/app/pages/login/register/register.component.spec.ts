@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { User } from '../../models/user';
+import { User } from '../../../models/user';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;

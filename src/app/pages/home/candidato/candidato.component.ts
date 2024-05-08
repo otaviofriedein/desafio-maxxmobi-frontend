@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Candidato } from '../../models/candidato';
+import { Candidato } from '../../../models/candidato';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
