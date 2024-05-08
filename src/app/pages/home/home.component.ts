@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
     let params = '';
 
     if (this.candidatoFilters.nome != undefined && this.candidatoFilters.nome != '') params += `nome=${this.candidatoFilters.nome}&`;
-    if (this.candidatoFilters.sexo != undefined) params += `sexo=${this.candidatoFilters.sexo}&`;
+    if (this.candidatoFilters.sexo != undefined && this.candidatoFilters.sexo != '') params += `sexo=${this.candidatoFilters.sexo}&`;
     if (this.candidatoFilters.nota != undefined) params += `nota=${this.candidatoFilters.nota}&`;
     if (this.candidatoFilters.nascimento != undefined) {
       params += `nascimento=${this.util.convertToServerDateFormat(this.candidatoFilters.nascimento)}&`;
