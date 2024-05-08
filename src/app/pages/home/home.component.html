@@ -50,11 +50,11 @@
       <mat-form-field>
         <mat-label>Ordenar Por</mat-label>
         <mat-select [(ngModel)]="candidatoFilters.sortBy">
-          <mat-option value="">Selecione</mat-option>
+          <mat-option>Selecione</mat-option>
           <mat-option [value]="{ value: 'id', direction: 'ASC' }">Id, Crescente</mat-option>
           <mat-option [value]="{ value: 'id', direction: 'DESC' }">Id, Decrescente</mat-option>
-          <mat-option [value]="{ value: 'name', direction: 'ASC' }">Nome, Crescente</mat-option>
-          <mat-option [value]="{ value: 'name', direction: 'DESC' }">Nome, Decrescente</mat-option>          
+          <mat-option [value]="{ value: 'nome', direction: 'ASC' }">Nome, Crescente</mat-option>
+          <mat-option [value]="{ value: 'nome', direction: 'DESC' }">Nome, Decrescente</mat-option>          
         </mat-select>
       </mat-form-field>
     </mat-grid-tile>
