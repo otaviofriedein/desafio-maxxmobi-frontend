@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { CustomInterceptor } from './http-custom.interceptor';
 
 
@@ -9,7 +9,9 @@ describe('customHttpInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports:[
+        HttpClientModule
+      ],
       providers: [
         CustomInterceptor,
         {
@@ -22,5 +24,9 @@ describe('customHttpInterceptor', () => {
 
     interceptor = TestBed.inject(CustomInterceptor);
     http = TestBed.inject(HttpClient);
+  });
+
+  it('should be created', () => {
+    expect(interceptor).toBeTruthy();
   });
 });
