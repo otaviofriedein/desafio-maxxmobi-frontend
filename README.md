@@ -46,6 +46,6 @@ Para executar os testes unitários da aplicação, siga estas instruções:
 
 ## Informações Adicionais
 
-- Para autenticação, utilize o link: [http://localhost:8080/auth](http://localhost:8080/auth).
+- Para entrar no sistema, registre o seu usuário e realize o login.
 - A aplicação estará disponível na porta 4200 por padrão. Certifique-se de que esta porta esteja disponível e não esteja sendo utilizada por outros serviços em seu sistema.
 
