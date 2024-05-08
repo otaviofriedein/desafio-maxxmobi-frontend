@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Candidato } from '../../models/candidato';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { API_URL } from '../../api.config';
@@ -40,10 +40,6 @@ export class CandidatoService {
 
   createCandidato(candidato: Candidato): Observable<Candidato> {
     return this.httpClient.post<Candidato>(`${API_URL}${this.resource}`, JSON.stringify(candidato), this.httpOptions).pipe(
-      tap((response) => {
-        this.showSuccessSnackBarAndReload('Candidato criado com sucesso');
-        return response;
-      }),
       catchError(error => {
         this.showErrorSnackBar('Não foi possível criar o candidato');
         return throwError(() => error);
@@ -52,10 +48,6 @@ export class CandidatoService {
 
   updateCandidato(candidato: Candidato): Observable<Candidato> {
     return this.httpClient.put<Candidato>(`${API_URL}${this.resource}/${candidato.id}`, JSON.stringify(candidato), this.httpOptions).pipe(
-      tap((response) => {
-        this.showSuccessSnackBarAndReload('Candidato atualizado com sucesso');
-        return response;
-      }),
       catchError(error => {
         this.showErrorSnackBar('Não foi possível altualizar o candidato!');
         return throwError(() => error);
@@ -65,20 +57,11 @@ export class CandidatoService {
 
   deleteCandidato(id: number) {
     return this.httpClient.delete(`${API_URL}${this.resource}/${id}`, this.httpOptions).pipe(
-      tap((response) => {
-        this.showSuccessSnackBarAndReload('Candidato excluído com sucesso');    
-        return response;
-      }),
       catchError(error => {
         this.showErrorSnackBar('Não foi possível deletar o candidato');
         return throwError(() => error);
       })
     );
-  }
-
-  private showSuccessSnackBarAndReload(mensagem: string) {    
-    this.snackBar.open('Candidato excluído com sucesso', '', { duration: 3000 });
-    setTimeout(() => { location.reload(); }, 3000);     
   }
 
   private showErrorSnackBar(mensagem: string) {
