@@ -77,7 +77,7 @@ export class HomeComponent {
   deleteCandidato = (id:number) => 
     this.candidatoService.deleteCandidato(id);  
 
-  private getFilterCandidato(){
+  getFilterCandidato(){
     let params = '';
 
     if (this.candidatoFilters.nome != undefined) params += `nome=${this.candidatoFilters.nome}&`;
@@ -89,6 +89,5 @@ export class HomeComponent {
     if (this.candidatoFilters.sortBy != undefined) params += `sortBy=${this.candidatoFilters.sortBy.value}&order=${this.candidatoFilters.sortBy.direction}`;
 
     return (params.length > 0) ? '?' + params : params;
-  }
-  
+  }  
 }
