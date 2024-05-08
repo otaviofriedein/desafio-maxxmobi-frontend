@@ -68,9 +68,6 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  beforeAll(() => {
-    window.onbeforeunload = () => 'Stop location.reload';
-  });
 
   it('deve chamar getAllCandidatos no ngOnInit', fakeAsync(() => {
 
