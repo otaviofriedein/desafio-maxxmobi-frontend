@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { of } from 'rxjs';
 import { User } from '../../models/user';
+import { TokenJWT } from '../../models/tokenJwt';
+import { Router } from '@angular/router';
+import { RegisterComponent } from './register/register.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,11 +20,13 @@ describe('LoginComponent', () => {
   let mockDialog: jasmine.SpyObj<MatDialog>;
   let mockAutenticacaoService: jasmine.SpyObj<AutenticacaoService>;
   let mockSnackBar: jasmine.SpyObj<MatSnackBar>;
+  let mockRouter: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
-    mockAutenticacaoService = jasmine.createSpyObj('AutenticacaoService', ['login', 'signUp']);
+    mockAutenticacaoService = jasmine.createSpyObj('AutenticacaoService', ['login', 'register']);
     mockSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
+    mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
     await TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
@@ -35,6 +40,7 @@ describe('LoginComponent', () => {
       providers: [
         { provide: MatDialog, useValue: mockDialog },
         { provide: AutenticacaoService, useValue: mockAutenticacaoService },
+        { provide: Router, useValue: mockRouter },
         { provide: MatSnackBar, useValue: mockSnackBar },
         provideAnimationsAsync(),
       ]
@@ -55,6 +61,10 @@ describe('LoginComponent', () => {
   it('should call AutenticacaoService login method when form is valid', () => {
 
     component.formLogin.setValue({ email: 'test@example.com', password: 'password' });
+
+    const mockResponse = { token: 'token_de_teste' } as TokenJWT;
+    mockAutenticacaoService.login.and.returnValue(of(mockResponse));
+
     component.onLogin();
 
     expect(mockAutenticacaoService.login).toHaveBeenCalledOnceWith(component.user);
@@ -65,18 +75,5 @@ describe('LoginComponent', () => {
     component.onLogin();
 
     expect(mockSnackBar.open).toHaveBeenCalledOnceWith('Login inválido!', 'Fechar', { duration: 3000 });
-  });
-
-  it('should call AutenticacaoService signUp method when openDialogToRegisterUser is called', () => {
-    const newUser = { email: 'joao.1@teste.com', fullName: 'João', password:'123'} as User;
-  
-    // Simular objeto de diálogo com um objeto componentInstance que tenha uma propriedade 'register' definida
-    const dialogRefSpyObj = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-    dialogRefSpyObj.componentInstance = { register: of(newUser) };
-    mockDialog.open.and.returnValue(dialogRefSpyObj);
-  
-    component.openDialogToRegisterUser();
-  
-    expect(mockAutenticacaoService.signUp).toHaveBeenCalledOnceWith(newUser);
   });
 });

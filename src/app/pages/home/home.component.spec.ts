@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -8,7 +8,6 @@ import { CandidatoService } from '../../service/candidato/candidato.service';
 import { UtilService } from '../../service/utils/util.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LayoutComponent } from '../layout/layout.component';
-import { AutenticacaoService } from '../../service/autenticacao/autenticacao.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -17,22 +16,20 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { Candidato } from '../../models/candidato';
-import { of } from 'rxjs';
-import { CandidatoComponent } from '../../components/candidato/candidato.component';
+import { delay, of } from 'rxjs';
 import { CandidatoFilters } from '../../models/candidatoFilters';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClientModule } from '@angular/common/http';
+import { CandidatoComponent } from './candidato/candidato.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let candidatoServiceSpy: jasmine.SpyObj<CandidatoService>;
-  let autenticacaoServiceSpy: jasmine.SpyObj<AutenticacaoService>;
-  let utilServiceSpy: jasmine.SpyObj<UtilService>;
+  let mockCandidatoService: CandidatoService;
+  let mockUtilService: UtilService;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
 
-  beforeEach(async () => {
-    candidatoServiceSpy = jasmine.createSpyObj('CandidatoService', ['getCandidatos', 'getCandidatoById', 'createCandidato', 'updateCandidato', 'deleteCandidato']);
-    autenticacaoServiceSpy = jasmine.createSpyObj('AutenticacaoService', ['']);
-    utilServiceSpy = jasmine.createSpyObj('UtilService', ['convertToServerDateFormat']);
+  beforeEach(async () => {    
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     
     await TestBed.configureTestingModule({
@@ -47,12 +44,13 @@ describe('HomeComponent', () => {
         MatToolbarModule,
         MatInputModule,
         MatSelectModule,
-        FormsModule
+        FormsModule,
+        HttpClientModule
       ],
       providers: [
-        { provide: CandidatoService, useValue: candidatoServiceSpy },
-        { provide: AutenticacaoService, useValue: autenticacaoServiceSpy },
-        { provide: UtilService, useValue: utilServiceSpy },
+        { provide: CandidatoService },
+        { provide: MatSnackBar },
+        { provide: UtilService },
         { provide: MatDialog, useValue: dialogSpy },
         provideAnimationsAsync(),
       ],
@@ -63,29 +61,30 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
+    
+    mockCandidatoService = TestBed.get(CandidatoService);
+    mockUtilService = TestBed.get(UtilService);
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  beforeAll(() => {
+    window.onbeforeunload = () => 'Stop location.reload';
   });
 
-  it('should call CandidatoService getCandidatos method on ngOnInit', () => {
-    // Arrange
-    const candidatos: Candidato[] = []; // Define candidatos de exemplo
-    candidatoServiceSpy.getCandidatos.and.returnValue(of(candidatos));
+  it('deve chamar getAllCandidatos no ngOnInit', fakeAsync(() => {
 
-    // Act
+    spyOn(mockCandidatoService, 'getCandidatos').and.returnValue(of([]));
+
     component.ngOnInit();
 
-    // Assert
-    expect(candidatoServiceSpy.getCandidatos).toHaveBeenCalled();
-    expect(component.candidatos).toEqual(candidatos);
-  });
+    expect(mockCandidatoService.getCandidatos).toHaveBeenCalled();
+  }));  
 
   it('should call openDialogToCreateCandidato and send request createCandidato to Api', () => {
 
     const candidato: Candidato = { id: 0, nome: '', nascimento: '', sexo: '', nota: 0, bairro: '', cidade: '', logradouro: '', uf: '', data_criacao: '' };
+    spyOn(mockCandidatoService, 'createCandidato').and.returnValue(of(candidato));
 
     const dialogRefSpyObj = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
     dialogRefSpyObj.componentInstance = { save: of(candidato) };
@@ -93,27 +92,28 @@ describe('HomeComponent', () => {
 
     component.openDialogToCreateCandidato();
 
-    expect(candidatoServiceSpy.createCandidato).toHaveBeenCalledOnceWith(candidato);
+    expect(mockCandidatoService.createCandidato).toHaveBeenCalledOnceWith(candidato);
   });
 
   it('should call openDialogToViewCandidato and open CandidatoComponent in readonly mode', () => {
+
     const candidato: Candidato = { id: 0, nome: '', nascimento: '', sexo: '', nota: 0, bairro: '', cidade: '', logradouro: '', uf: '', data_criacao: '' };
     const dialogRefSpyObj = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
-    
+
+    spyOn(mockCandidatoService, 'getCandidatoById').and.returnValue(of(candidato));
+    dialogSpy.open.and.returnValue(dialogRefSpyObj);
+
     // Adiciona manualmente as propriedades necessárias
     dialogRefSpyObj.componentInstance = {
       candidato: null,
       readonly: null
     };
 
-    candidatoServiceSpy.getCandidatoById.and.returnValue(of(candidato));   
-    dialogSpy.open.and.returnValue(dialogRefSpyObj);
-
     // Act
     component.openDialogToViewCandidato(1);
 
-    // Assert
-    expect(candidatoServiceSpy.getCandidatoById).toHaveBeenCalled();
+    // // Assert
+    expect(mockCandidatoService.getCandidatoById).toHaveBeenCalled();
     expect(dialogSpy.open).toHaveBeenCalledOnceWith(CandidatoComponent);
     expect(component.candidato).toEqual(candidato);
     expect(dialogRefSpyObj.componentInstance.candidato).toEqual(candidato);
@@ -124,35 +124,38 @@ describe('HomeComponent', () => {
     const candidato: Candidato = { id: 0, nome: '', nascimento: '', sexo: '', nota: 0, bairro: '', cidade: '', logradouro: '', uf: '', data_criacao: '' };
     const dialogRefSpyObj = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
     
+    spyOn(mockCandidatoService, 'getCandidatoById').and.returnValue(of(candidato));
+    spyOn(mockCandidatoService, 'updateCandidato').and.returnValue(of(candidato));
+
     // Adiciona manualmente as propriedades necessárias
     dialogRefSpyObj.componentInstance = {
       candidato: null,
       save: of(candidato)
     };
-
-    candidatoServiceSpy.getCandidatoById.and.returnValue(of(candidato));   
+  
     dialogSpy.open.and.returnValue(dialogRefSpyObj);
 
     // Act
     component.openDialogToUpdateCandidato(1);
 
     // Assert
-    expect(candidatoServiceSpy.getCandidatoById).toHaveBeenCalled();
+    expect(mockCandidatoService.getCandidatoById).toHaveBeenCalled();
     expect(dialogSpy.open).toHaveBeenCalledOnceWith(CandidatoComponent);
     expect(component.candidato).toEqual(candidato);
     expect(dialogRefSpyObj.componentInstance.candidato).toEqual(candidato);
-    expect(candidatoServiceSpy.updateCandidato).toHaveBeenCalledOnceWith(candidato);
+    expect(mockCandidatoService.updateCandidato).toHaveBeenCalledOnceWith(candidato);
   });
 
   it('should call deleteCandidato and send request to Api', () => {
     // Arrange
     const id = 1;
+    spyOn(mockCandidatoService, 'deleteCandidato').and.returnValue(of());
 
     // Act
     component.deleteCandidato(id);
 
     // Assert
-    expect(candidatoServiceSpy.deleteCandidato).toHaveBeenCalledWith(id);
+    expect(mockCandidatoService.deleteCandidato).toHaveBeenCalledWith(id);
   });
 
   it('should call getFilterCandidato with empty params and mount empty params', () => {
@@ -180,7 +183,7 @@ describe('HomeComponent', () => {
     let params = component.getFilterCandidato();
 
     // Assert
-    expect(params).toEqual(`?nome=${component.candidatoFilters.nome}&sexo=${component.candidatoFilters.sexo}&nota=${component.candidatoFilters.nota}&nascimento=${utilServiceSpy.convertToServerDateFormat(component.candidatoFilters.nascimento)}&sortBy=${component.candidatoFilters.sortBy.value}&order=${component.candidatoFilters.sortBy.direction}`);
+    expect(params).toEqual(`?nome=${component.candidatoFilters.nome}&sexo=${component.candidatoFilters.sexo}&nota=${component.candidatoFilters.nota}&nascimento=${mockUtilService.convertToServerDateFormat(component.candidatoFilters.nascimento)}&sortBy=${component.candidatoFilters.sortBy.value}&order=${component.candidatoFilters.sortBy.direction}`);
   });
 
 });

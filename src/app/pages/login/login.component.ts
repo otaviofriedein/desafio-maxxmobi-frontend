@@ -29,17 +29,16 @@ export class LoginComponent {
   });
 
   onLogin() {
-    if (this.formLogin.valid){
+    if (this.formLogin.valid) {
       this.user = this.formLogin.value as User;
-      this.autenticacaoService.login(this.user).subscribe((response)=>{
+      this.autenticacaoService.login(this.user).subscribe((response) => {
         localStorage.setItem(TOKEN, response.token);
-          this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/home');
       });
     }
-    else
-    {
-      this.snackBar.open('Login inválido!', 'Fechar', { duration: 3000 });      
-    }   
+    else {
+      this.snackBar.open('Login inválido!', 'Fechar', { duration: 3000 });
+    }
   }
 
   openDialogToRegisterUser() {
