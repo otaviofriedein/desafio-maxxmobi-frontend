@@ -72,8 +72,6 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  clearFilterCandidato = () => location.reload();
-
   createCandidato = (candidato: Candidato) =>
     this.candidatoService.createCandidato(candidato).subscribe((response => {
       this.showSuccessSnackBarAndReload('Candidato criado com sucesso');
@@ -108,10 +106,12 @@ export class HomeComponent implements OnInit {
 
   showSuccessSnackBarAndReload(mensagem: string) {
     this.snackBar.open(mensagem, '', { duration: 3000 });
-    setTimeout(() => { location.reload(); }, 3000);
+    setTimeout(() => { this.reloadPage() }, 3000);
   }
 
   formatToLocalDate(data: string){
     return this.util.formatToLocalDate(data);
   }
+
+  reloadPage = () => location.reload();
 }

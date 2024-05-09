@@ -61,6 +61,8 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
+
+    component.reloadPage = function() { };
     
     mockCandidatoService = TestBed.get(CandidatoService);
     mockUtilService = TestBed.get(UtilService);
